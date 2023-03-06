@@ -37,6 +37,28 @@ const userSchema = new Schema(
         return this.role === "seller";
       },
     },
+    languages: {
+      type: Array,
+      required: function () {
+        return this.role === "seller";
+      },
+    },
+    skills: {
+      type: Array,
+      required: function () {
+        return this.role === "seller";
+      },
+    },
+    town: {
+      type: String,
+      required: true,
+    },
+    profession: {
+      type: String,
+      required: function () {
+        return this.role === "seller";
+      },
+    },
     role: {
       type: String,
       enum: ["admin", "buyer", "seller"],

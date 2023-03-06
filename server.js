@@ -1,7 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import userRoute from "./routes/user.Route.js";
+import authRoute from "./routes/auth.Route.js";
+import conversationRoute from "./routes/conversation.Route.js";
+import gigRoute from "./routes/gig.Route.js";
+import messageRoute from "./routes/message.Route.js";
+import orderRoute from "./routes/order.Route.js";
+import reviewRoute from "./routes/review.Route.js";
 const app = express();
 dotenv.config();
 mongoose.set("strictQuery", true);
@@ -14,6 +20,14 @@ const connect = async () => {
     console.log(error);
   }
 };
+app.use(express.json());
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/gigs", gigRoute);
+app.use("/api/orders", orderRoute);
+app.use("/api/conversations", conversationRoute);
+app.use("/api/messages", messageRoute);
+app.use("/api/reviews", reviewRoute);
 
 app.listen(8000, () => {
   connect();
