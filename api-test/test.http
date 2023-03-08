@@ -1,0 +1,14 @@
+@voir = http://localhost:8000
+
+post {{voir}}/api/auth/register
+Content-Type: "application/json"
+
+{
+"username":"emak",
+"email":"emak@gmail.com",
+"password":"Emak@2023",
+"country":"Ghana",
+"country":"Ghana",
+" town":"Accra",
+
+}
