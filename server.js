@@ -22,7 +22,15 @@ const connect = async () => {
     console.log(error);
   }
 };
-app.use(cors({ origin: "https://voir-africa.web.app", credentials: true }));
+
+const allowedOrigins = ["http://localhost:5173", "https://voir-africa.web.app"];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -33,9 +41,6 @@ app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/reviews", reviewRoute);
-app.use("/", (req, res) => {
-  res.send("Hey you");
-});
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
