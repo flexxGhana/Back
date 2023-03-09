@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import createError from "../utils/createError.js";
 export const register = async (req, res, next) => {
   try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) return next(createError(404, "Email Already taken!"));
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(req.body.password, salt);
     const newUser = new User({
@@ -19,6 +21,8 @@ export const register = async (req, res, next) => {
 };
 export const registerSeller = async (req, res, next) => {
   try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) return next(createError(404, "Email Already taken!"));
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(req.body.password, salt);
     const newUser = new User({
