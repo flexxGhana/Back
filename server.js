@@ -22,11 +22,7 @@ const connect = async () => {
     console.log(error);
   }
 };
-// app.use(cors({ origin: "https://voir-africa.web.app", credentials: true }));
-
-app.use(cors());
-app.options("*", cors());
-
+app.use(cors({ origin: "https://voir-africa.web.app", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
