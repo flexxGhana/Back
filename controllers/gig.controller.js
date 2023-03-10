@@ -39,7 +39,6 @@ export const getGig = async (req, res, next) => {
     next(err);
   }
 };
-
 export const getGigs = async (req, res, next) => {
   const q = req.query;
   const filters = {
@@ -53,20 +52,8 @@ export const getGigs = async (req, res, next) => {
     }),
     ...(q.search && { title: { $regex: q.search, $options: "i" } }),
   };
-
-  // Pagination parameters
-  const page = parseInt(q.page) || 1;
-  const limit = parseInt(q.limit) || 10;
-  const skip = (page - 1) * limit;
-
   try {
-    const gigs = await Gig.find(filters)
-      .sort({
-        createdAt: -1,
-        [q.sort]: -1,
-      })
-      .skip(skip)
-      .limit(limit);
+    const gigs = await Gig.find(filters).sort({ [q.sort]: -1 });
     res.status(200).send(gigs);
   } catch (err) {
     next(err);
