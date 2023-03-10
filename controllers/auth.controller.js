@@ -6,6 +6,7 @@ export const register = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) return next(createError(404, "Email Already taken!"));
+
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(req.body.password, salt);
     const newUser = new User({
@@ -13,8 +14,27 @@ export const register = async (req, res, next) => {
       password: hash,
     });
 
+    // prevent user from creating an admin account
+    if (req.body.role && req.body.role === "admin") {
+      return next(createError(403, "Creating admin accounts is not allowed!"));
+    }
+
     await newUser.save();
-    res.status(201).send("User has been created.");
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+        role: newUser.role,
+      },
+      process.env.JWT_KEY
+    );
+
+    const { password, ...info } = newUser._doc;
+    res
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .status(201)
+      .send(info);
   } catch (err) {
     next(err);
   }
@@ -23,6 +43,7 @@ export const registerSeller = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (user) return next(createError(404, "Email Already taken!"));
+
     const salt = bcrypt.genSaltSync(5);
     const hash = bcrypt.hashSync(req.body.password, salt);
     const newUser = new User({
@@ -31,8 +52,27 @@ export const registerSeller = async (req, res, next) => {
       password: hash,
     });
 
+    // prevent user from creating an admin account
+    if (req.body.role && req.body.role === "admin") {
+      return next(createError(403, "Creating admin accounts is not allowed!"));
+    }
+
     await newUser.save();
-    res.status(201).send("New Seller  created successfully.");
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+        role: newUser.role,
+      },
+      process.env.JWT_KEY
+    );
+
+    const { password, ...info } = newUser._doc;
+    res
+      .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .status(201)
+      .send(info);
   } catch (err) {
     next(err);
   }

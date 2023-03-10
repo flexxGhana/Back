@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-// import userRoute from "./routes/user.Route.js";
+import userRoute from "./routes/user.Route.js";
 import authRoute from "./routes/auth.Route.js";
 import conversationRoute from "./routes/conversation.Route.js";
 import gigRoute from "./routes/gig.Route.js";
@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
-// app.use("/api/users", userRoute);
+app.use("/api/users", userRoute);
 app.use("/api/gigs", gigRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
