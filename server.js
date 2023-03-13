@@ -22,15 +22,21 @@ const connect = async () => {
     console.log(error);
   }
 };
-
-// const allowedOrigins = ["http://localhost:5173", "https://voir-africa.web.app"];
+const allowedOrigins = ["http://localhost:5173", "https://voir-africa.web.app"];
 
 app.use(
   cors({
-    origin: "*",
+    origin: function (origin, callback) {
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
