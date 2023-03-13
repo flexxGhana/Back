@@ -27,7 +27,7 @@ const allowedOrigins = ["http://localhost:5173", "https://voir-africa.web.app"];
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: "*",
     credentials: true,
   })
 );
