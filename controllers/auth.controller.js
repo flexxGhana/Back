@@ -32,6 +32,10 @@ export const register = async (req, res, next) => {
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 86400000,
+        domain: ".web.app",
       })
       .status(201)
       .send(info);
