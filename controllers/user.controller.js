@@ -35,12 +35,6 @@ export const getAllUsers = async (req, res, next) => {
 };
 
 export const getUser = async (req, res, next) => {
-  const token = req.cookies.accessToken;
-  const decodedToken = jwt.verify(token, process.env.JWT_KEY);
-  const currentUserRole = decodedToken.role;
-  if (currentUserRole !== "admin") {
-    return next(createError(403, "You are not authorized to view this user!"));
-  }
   try {
     const user = await User.findById(req.params.userId);
     if (!user) return next(createError(404, "User not found"));

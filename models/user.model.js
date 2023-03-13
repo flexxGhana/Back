@@ -3,9 +3,13 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    name: {
+    firstName: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "first name is required"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "last name is required"],
     },
     email: {
       type: String,
@@ -32,9 +36,11 @@ const userSchema = new Schema(
       },
     },
 
-    img: {
+    picture: {
       type: String,
-      required: false,
+      required: function () {
+        return this.role === "seller";
+      },
     },
     country: {
       type: String,

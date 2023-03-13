@@ -45,11 +45,11 @@ const GigSchema = new Schema(
     },
     shortTitle: {
       type: String,
-      required: true,
+      required: false,
     },
     shortDesc: {
       type: String,
-      required: true,
+      required: false,
     },
     deliveryTime: {
       type: Number,
@@ -67,10 +67,26 @@ const GigSchema = new Schema(
       type: Number,
       default: 0,
     },
+    IsFeatured: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+const MAX_SHORT_DESC_LENGTH = 50;
+
+GigSchema.pre("save", function (next) {
+  if (this.desc && !this.shortDesc) {
+    this.shortDesc = this.desc.substring(0, MAX_SHORT_DESC_LENGTH);
+    if (this.desc.length > MAX_SHORT_DESC_LENGTH) {
+      this.shortDesc += "...";
+    }
+  }
+  next();
+});
 
 export default mongoose.model("Gig", GigSchema);
