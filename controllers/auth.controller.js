@@ -74,6 +74,10 @@ export const registerSeller = async (req, res, next) => {
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 86400000,
+        domain: ".web.app",
       })
       .status(201)
       .send(info);
@@ -102,6 +106,11 @@ export const login = async (req, res, next) => {
     res
       .cookie("accessToken", token, {
         httpOnly: true,
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        maxAge: 86400000,
+        domain: ".web.app",
       })
       .status(200)
       .send(info);
